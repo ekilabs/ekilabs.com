@@ -833,12 +833,12 @@ html,body{overflow-x:hidden}
 </script>
 <script>
 (function () {
-  var f = document.querySelector('form[data-contact]'); if (!f) return;
+  var f = document.querySelector('form[data-contact]'); if (!f) return; var t0 = Date.now();
   var st = f.querySelector('[data-status]'), btn = f.querySelector('button[type="submit"]');
   f.addEventListener('submit', function (e) {
     e.preventDefault();
     if (f.reportValidity && !f.reportValidity()) return;
-    var data = {}; new FormData(f).forEach(function (v, k) { data[k] = v; });
+    var data = {}; new FormData(f).forEach(function (v, k) { data[k] = v; }); data.elapsed = Date.now() - t0;
     btn.disabled = true; st.textContent = 'Sending…';
     fetch(f.getAttribute('action'), { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify(data) })
       .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { if (!r.ok || !j.ok) throw new Error(j.error || String(r.status)); }); })
